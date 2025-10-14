@@ -1,0 +1,16 @@
+services:
+  db:
+    build: ./db
+    container_name: postgres_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: Warren
+      POSTGRES_PASSWORD: LikeSugarOnMyTongue
+      POSTGRES_DB: Archyl_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
