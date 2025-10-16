@@ -2,6 +2,9 @@ import { Router } from 'express'
 import { db } from '../../../db/db'
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
+import * as dotenv from "dotenv"
+
+dotenv.config({ path: '.env' });
 
 interface tokenObj {
   token: string,
@@ -16,8 +19,8 @@ const emailTransporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: 'warren.hamdi.com',
-    pass: 'yzzr nxzd aifh cwvu'
+    user: process.env.MAIL_ADRR,
+    pass: process.env.MAIL_MDP
   }
 })
 export class UsersService {
