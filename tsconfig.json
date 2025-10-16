@@ -1,25 +1,26 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "target": "es2017",
+    "target": "ES2020",
     "module": "CommonJS",
-    "lib": ["esnext"],
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
+    "lib": ["ESNext"],
+    "baseUrl": "./src",
+    "paths": {
+      "~/*": ["*"]
+    },
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
     "strictNullChecks": true,
     "resolveJsonModule": true,
-    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "outDir": "./dist",
-    "strictPropertyInitialization": false,
-    "paths": {
-      "~/*": ["./src/*"],
-      "~~/*": ["./*"]
-    }
+    "strictPropertyInitialization": false
   },
   "ts-node": {
     "require": ["tsconfig-paths/register"]
-  }
+  },
+  "include": ["src"]
 }
