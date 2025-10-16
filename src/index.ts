@@ -19,8 +19,8 @@ app.use(cors())
 app.use('/users', UsersController)
 
 app.get('/', async (req: any, res: any) => {
-  res.send('🏠');
-  //res.send(service.findAll());
+  //res.send('🏠');
+  res.send(service.findAll());
 })
 
 //app.all('*', UmknownRoutesHandler)

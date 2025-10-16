@@ -3,7 +3,7 @@ import { db } from '../../../db/db'
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
 import * as dotenv from "dotenv"
-
+import bcrypt from "bcrypt"
 dotenv.config({ path: '.env' });
 
 interface tokenObj {
@@ -32,7 +32,17 @@ export class UsersService {
   async register(body: any): Promise<Mytoken> {
     const user = body;
     // add to db
+    try {
+      const hasedPassword = await bcrypt.hash(user.password, 10)
+      await db("INSERT INTO users (username,email, password) VALUES ($1, $2, $3);", [user.username, user.email, hasedPassword]);
+      console.log("Tape HERE")
+    }
+    catch (err) {
+      console.log(err)
+    }
 
+    console.log(user.email)
+    console.log(user.password)
     const token = jwt.sign({ email: user.email }, 'your_secret', { expiresIn: '1h' });// change your secret
     let tokenLst =
     {
