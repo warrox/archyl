@@ -5,11 +5,6 @@ import dns from 'dns/promises'
 import { body, validationResult } from 'express-validator'
 export const UsersController = Router()
 const service = new UsersService()
-UsersController.post('/login', (req, res) => {
-  console.log(req.body.email)
-  console.log(req.body.password)
-  return res.status(200).json("Salut les pd")
-})
 
 
 UsersController.post(
@@ -46,6 +41,15 @@ UsersController.post(
     res.send('User registered successfully')
   }
 )
+
+UsersController.post(
+  '/login', async (req: any, res: any) => {
+    const { email, password } = req.body
+    if (!email || !password)
+      return res.status(400).send('Mail or password empty')
+    service.login(req.body)
+    return res.status(400).send("Login")
+  })
 
 
 UsersController.get('/', (req, res) => {

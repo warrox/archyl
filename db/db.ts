@@ -1,4 +1,4 @@
-import { Pool } from 'pg'
+import { Pool, QueryResult, QueryResultRow } from 'pg'
 import * as dotenv from "dotenv"
 
 dotenv.config({ path: '.env' });
@@ -12,4 +12,7 @@ const pool = new Pool({
 
 
 
-export const db = (text: string, params?: any) => pool.query(text, params)
+export const db = async <T extends QueryResultRow>(text: string, params?: any): Promise<T[]> => {
+  const result: QueryResult<T> = await pool.query(text, params);
+  return result.rows;
+}
