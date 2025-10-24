@@ -6,7 +6,8 @@ import { body, validationResult } from 'express-validator'
 export const UsersController = Router()
 const service = new UsersService()
 
-
+// ******** Register *******
+// ********          *******
 UsersController.post(
   '/register',
   [
@@ -36,12 +37,14 @@ UsersController.post(
     }
 
     // Register user
-    const regResult = await service.register(req.body)
-    res.cookie('authcookie', regResult)
+    const { access, refresh } = await service.register(req.body)
+    res.cookie(access.token)
+    res.cookie(refresh.token)
     res.send('User registered successfully')
   }
 )
-
+// ******** Login *******
+// ********       *******
 UsersController.post(
   '/login', async (req: any, res: any) => {
     const { email, password } = req.body
@@ -50,7 +53,6 @@ UsersController.post(
     service.login(req.body)
     return res.status(400).send("Login")
   })
-
 
 UsersController.get('/', (req, res) => {
   service.findAll();

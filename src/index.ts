@@ -2,14 +2,15 @@ import cors from 'cors'
 import express from 'express'
 import { UsersController } from './ressources/users/users.controller'
 import { UsersService } from './ressources/users/users.service'
-import { db } from '../db/db'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
+import loggerRouter from 'middlewares/middleware.routesHandler'
+
 const app = express()
 const service = new UsersService();
 app.use(express.json())
 
-
+app.use(loggerRouter);
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cookieParser())

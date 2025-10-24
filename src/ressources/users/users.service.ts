@@ -8,7 +8,6 @@ dotenv.config({ path: '.env' });
 
 interface tokenObj {
   token: string,
-
   maxAge: number,
   httpOnly: boolean
 }
@@ -37,7 +36,7 @@ export class UsersService {
     console.log(result)
   }
   // ** register part **
-  async register(body: any): Promise<Mytoken> {
+  async register(body: any): Promise<{ access: Mytoken; refresh: Mytoken }> {
     const user = body;
     // add to db
     try {
@@ -50,15 +49,22 @@ export class UsersService {
 
     console.log(user.email)
     console.log(user.password)
-    const token = jwt.sign({ email: user.email }, 'your_secret', { expiresIn: '1h' });// change your secret
-    let tokenLst =
+    const acessToken = jwt.sign({ email: user.email }, 'your_secret', { expiresIn: '15m' });// change your secret
+    const refreshToken = jwt.sign({ email: user.email }, 'your_secret', { expiresIn: '7d' })
+    const access: Mytoken =
     {
-      token,
+      token: acessToken,
       maxAge: 3600,
       httpOnly: true
     }
-    return tokenLst;
+    const refresh: Mytoken = {
+      token: refreshToken,
+      maxAge: 9000000,
+      httpOnly: true
+    }
+    return { access, refresh };
   }
+
   async login(body: any) {
     const { email, password } = body;
 
