@@ -38,7 +38,6 @@ UsersController.post(
 
     // Register user
     const { access, refresh } = await service.register(req.body)
-    console.log("XXXXXXX")
     res.cookie('access-token', access.token, {
       maxAge: access.maxAge,
       httpOnly: access.httpOnly
@@ -51,15 +50,63 @@ UsersController.post(
     return res.status(200).send('Salut')
   }
 )
+
+
+
+UsersController.post(
+  '/register',
+  [
+    body('email').isEmail().withMessage('Must be a valid email'),
+    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+  ],
+  async (req: Request, res: Response) => {
+    try {
+      const errors = validationResult(req)
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() })
+      }
+
+      const { email } = req.body
+
+      if (!validator.isEmail(email)) {
+        return res.status(400).send('Invalid email format')
+      }
+
+      const domain = email.split('@')[1]
+      const records = await dns.resolveMx(domain).catch(() => [])
+      if (!records || records.length === 0) {
+        return res.status(400).send('Mail provider not recognized')
+      }
+
+      const { access, refresh } = await service.register(req.body)
+
+      res.cookie('access-token', access.token, {
+        maxAge: access.maxAge,
+        httpOnly: access.httpOnly
+      })
+
+      res.cookie('refresh-token', refresh.token, {
+        maxAge: refresh.maxAge,
+        httpOnly: refresh.httpOnly
+      })
+
+      return res.status(200).send('User Registered')
+    } catch (err) {
+      console.error('Register error:', err)
+      return res.status(500).send('Internal server error')
+    }
+  }
+)
 // ******** Login *******
 // ********       *******
 UsersController.post(
-  '/login', async (req: any, res: any) => {
+  '/login', async (req: Request, res: Response) => {
     const { email, password } = req.body
     if (!email || !password)
       return res.status(400).send('Mail or password empty')
-    service.login(req.body)
-    return res.status(400).send("Login")
+    const { access } = await service.login(req.body)
+    res.cookie('access-token', access.token)
+    return res.status(200).send("Login")
   })
 
 UsersController.get('/', (req, res) => {

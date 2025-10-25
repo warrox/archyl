@@ -6,6 +6,7 @@ router.use((req, res, next) => {
   console.log('Time', Date.now())
   if (req.originalUrl === '/users/login' || req.originalUrl === '/users/register') {
     next();
+    return;
   }
   // do acess token 
 
