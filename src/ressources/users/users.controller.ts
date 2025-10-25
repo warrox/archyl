@@ -1,6 +1,6 @@
-import { Router } from 'express'
+import { Router, Request, Response } from 'express'
 import { UsersService } from './users.service'
-import validator, { isLength } from 'validator'
+import validator from 'validator'
 import dns from 'dns/promises'
 import { body, validationResult } from 'express-validator'
 export const UsersController = Router()
@@ -14,7 +14,7 @@ UsersController.post(
     body('email').isEmail().withMessage('Must be a valid email'),
     body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
   ],
-  async (req: any, res: any) => {
+  async (req: Request, res: Response) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() })
@@ -38,9 +38,17 @@ UsersController.post(
 
     // Register user
     const { access, refresh } = await service.register(req.body)
-    res.cookie(access.token)
-    res.cookie(refresh.token)
-    res.send('User registered successfully')
+    console.log("XXXXXXX")
+    res.cookie('access-token', access.token, {
+      maxAge: access.maxAge,
+      httpOnly: access.httpOnly
+    })
+    res.cookie('refresh-token', refresh.token, {
+      maxAge: refresh.maxAge,
+      httpOnly: refresh.httpOnly
+    })
+
+    return res.status(200).send('Salut')
   }
 )
 // ******** Login *******
