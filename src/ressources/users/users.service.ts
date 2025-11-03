@@ -72,27 +72,28 @@ export class UsersService {
     const { email, password } = body;
 
     const result = await db<User>("SELECT * FROM users WHERE email = $1", [email]);
+    const isValidPass = await bcrypt.compare(password, result[0].password)
+    if (!isValidPass) throw new Error("Password incorrect")
+    console.log("XXX : ", result);
+    const user = result[0];
+    if (!user) throw new Error("User not found");
+    console.log('YYYYY : ', user.refreshtoken)
+    let refreshTokenValid = true;
     try {
-      console.log("XXX : ", result);
-      const user = result[0];
-      if (!user) throw new Error("User not found");
-      console.log('YYYYY : ', user.refreshtoken)
-
-
-      const { id, email } = jwt.verify(user.refreshtoken, process.env.REFRESH_TOKEN_SECRET!) as { id: number; email: string };
-      const acessToken = jwt.sign({ id: id, email: user.email }, process.env.ACCESS_TOKEN_SECRET!, { expiresIn: '15m' });
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) throw new Error("Invalid password");
-      const access: Mytoken = {
-        token: acessToken,
-        maxAge: 3600,
-        httpOnly: true
-      };
-      return { access }
-    } catch (err) {
-      console.log(err);
-      throw err;
+      jwt.verify(user.refreshtoken, process.env.REFRESH_TOKEN_SECRET!) as { id: number; email: string };
     }
+    catch {
+      refreshTokenValid = false;
+    }
+    const acessToken = jwt.sign({ id: user.id, email: user.email }, process.env.ACCESS_TOKEN_SECRET!, { expiresIn: '15m' });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) throw new Error("Invalid password");
+    const access: Mytoken = {
+      token: acessToken,
+      maxAge: 3600,
+      httpOnly: true
+    };
+    return { access }
   }
 }
 
