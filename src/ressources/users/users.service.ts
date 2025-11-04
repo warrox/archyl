@@ -1,10 +1,8 @@
-import { Router } from 'express'
 import { db } from '../../../db/db'
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
 import * as dotenv from "dotenv"
 import bcrypt from "bcrypt"
-import { access } from 'fs';
 dotenv.config({ path: '.env' });
 
 interface tokenObj {

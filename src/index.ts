@@ -5,6 +5,9 @@ import { UsersService } from './ressources/users/users.service'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import loggerRouter from 'middlewares/middleware.routesHandler'
+import { toNodeHandler } from "better-auth/node"
+import { auth } from "./ressources/auth/auth"
+
 
 const app = express()
 const service = new UsersService();
@@ -18,7 +21,7 @@ app.use(cookieParser())
 app.use(cors())
 
 app.use('/users', UsersController)
-
+app.use("/api", toNodeHandler(auth));
 app.get('/', async (req: any, res: any) => {
   //res.send('🏠');
   res.send(service.findAll());

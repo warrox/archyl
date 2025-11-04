@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "dev": "nodemon --watch src -e ts,json --exec \"ts-node -r tsconfig-paths/register src/index.ts\"",
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:bot\"",
+    "dev:api": "nodemon --watch src -e ts,json --exec \"ts-node -r tsconfig-paths/register src/index.ts\"",
+    "dev:bot": "nodemon --watch src -e ts,json --exec \"ts-node -r tsconfig-paths/register src/bot/bot.ts\"",
     "build": "tsup src/index.ts --format cjs --clean",
     "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -24,6 +26,7 @@
     "email-existence": "^0.1.6",
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
+    "grammy": "^1.38.3",
     "jsonwebtoken": "^9.0.2",
     "nodemailer": "^7.0.9",
     "pg": "^8.16.3",
@@ -40,6 +43,7 @@
     "@types/nodemailer": "^7.0.2",
     "@types/pg": "^8.15.5",
     "@types/validator": "^13.15.3",
+    "concurrently": "^9.2.1",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
