@@ -8,6 +8,7 @@
     "dev": "concurrently \"npm run dev:api\" \"npm run dev:bot\"",
     "dev:api": "nodemon --watch src -e ts,json --exec \"ts-node -r tsconfig-paths/register src/index.ts\"",
     "dev:bot": "nodemon --watch src -e ts,json --exec \"ts-node -r tsconfig-paths/register src/bot/bot.ts\"",
+    "dev:ai":"nodemon --watch src -e ts,json --exec \"ts-node -r tsconfig-paths/register src/ai/agent.ts\"",
     "build": "tsup src/index.ts --format cjs --clean",
     "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"

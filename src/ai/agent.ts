@@ -6,3 +6,4 @@ const { text } = await generateText({
   model: xai("grok-4"),
   prompt: "What is love ?"
 })
+
