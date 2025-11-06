@@ -7,3 +7,4 @@ const { text } = await generateText({
   prompt: "What is love ?"
 })
 
+console.log("Hola XXXXXXX" + text)

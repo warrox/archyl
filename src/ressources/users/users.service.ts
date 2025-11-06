@@ -1,4 +1,4 @@
-import { db } from '../../../db/db'
+import { db } from './../../../db/db.ts'
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
 import * as dotenv from "dotenv"

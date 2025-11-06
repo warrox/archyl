@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "lib": ["ESNext"],
     "baseUrl": "./src",
     "paths": {
@@ -10,6 +10,7 @@
     },
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true,
     "strict": true,
     "strictNullChecks": true,
     "resolveJsonModule": true,
@@ -20,7 +21,8 @@
     "strictPropertyInitialization": false
   },
   "ts-node": {
-    "require": ["tsconfig-paths/register"]
+    "require": ["tsconfig-paths/register"],
+    "esm": true
   },
   "include": ["src"]
 }

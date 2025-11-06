@@ -1,5 +1,6 @@
-import { Router, Request, Response } from 'express'
-import { UsersService } from './users.service'
+import { Router } from 'express'
+import type { Request, Response } from 'express'
+import { UsersService } from './users.service.ts'
 import validator from 'validator'
 import dns from 'dns/promises'
 import { body, validationResult } from 'express-validator'

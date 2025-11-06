@@ -1,6 +1,7 @@
-import { Pool, QueryResult, QueryResultRow } from 'pg'
+import { Pool } from 'pg'
 import * as dotenv from "dotenv"
 
+import type { QueryResult, QueryResultRow } from 'pg'  // <-- only type import
 dotenv.config({ path: '.env' });
 export const pool = new Pool({
   user: process.env.DB_USER,

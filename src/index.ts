@@ -1,12 +1,12 @@
 import cors from 'cors'
 import express from 'express'
-import { UsersController } from './ressources/users/users.controller'
-import { UsersService } from './ressources/users/users.service'
+import { UsersController } from './ressources/users/users.controller.ts'
+import { UsersService } from './ressources/users/users.service.ts'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
-import loggerRouter from 'middlewares/middleware.routesHandler'
+import loggerRouter from './middlewares/middleware.routesHandler.ts'
 import { toNodeHandler } from "better-auth/node"
-import { auth } from "./ressources/auth/auth"
+import { auth } from "./ressources/auth/auth.ts"
 
 
 const app = express()

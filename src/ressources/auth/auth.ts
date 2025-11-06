@@ -1,5 +1,5 @@
 import { betterAuth } from "better-auth";
-import { pool } from '../../../db/db'
+import { pool } from './../../../db/db.ts'
 import * as dotenv from "dotenv"
 
 dotenv.config({ path: '.env' })
