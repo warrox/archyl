@@ -5,36 +5,43 @@ dotenv.config({ path: ".env" });
 const bot = new Bot(process.env.TELEGRAM_BOT_ID!);
 
 let usrPrompt: string = "";
+let vaultState: boolean = false;
 export let result = "";
-bot.command("MemoBox", (ctx) => {
-  if (ctx.message?.text) {
-    usrPrompt = ctx.message.text;
-  }
+// ******* MemoBox *******
+bot.command("memobox", async (ctx) => {
+  bot.api.sendMessage(ctx.chatId, "MemoBox wip");
 });
-
-const Menu = "<b>Menu 1 </b>\n\nAdd your link to MemoBox";
-
-const MenuMarkUp = new InlineKeyboard();
-
-bot.command("menu", async (ctx) => {
-  await ctx.reply(Menu, {
-    parse_mode: "HTML",
-    reply_markup: MenuMarkUp,
-  });
+// ******* Vault *******
+bot.command("vault", async (ctx) => {
+  bot.api.sendMessage(
+    ctx.chatId,
+    "Vault opened🔓, please send me your memo ..",
+  );
+  vaultState = true;
 });
-
 bot.on("message", async (ctx) => {
   if (ctx.message.text) {
     usrPrompt = ctx.message.text;
+  } else if (ctx.message.text?.startsWith("/", 0)) {
+    return;
   }
   console.log(`${ctx.from.first_name} sent : ${usrPrompt}`);
-  bot.api.sendMessage(
-    ctx.chatId,
-    "I'm thinking, wait here i'm coming in a few ..",
-  );
-  result = await oa(usrPrompt);
-  console.log(`result from ChatGpt : ${result}`);
-  bot.api.sendMessage(ctx.chatId, result);
+  if (vaultState === true) {
+    bot.api.sendMessage(
+      ctx.chatId,
+      "I'm thinking, wait here i'm coming in a few ..",
+    );
+    result = await oa(usrPrompt);
+    console.log(`result from ChatGpt : ${result}`);
+    result = ` Your message has been added to the vault 🔐, you can retrieve it by using 🧠MemoBox  in the category : "${result.toUpperCase()}" or talk to me diectly on the menu`;
+    bot.api.sendMessage(ctx.chatId, result);
+    vaultState = false;
+  } else {
+    bot.api.sendMessage(
+      ctx.chatId,
+      "Use vault🔐 to send things or memobox🧠 to retrieve things",
+    );
+  }
 });
 
 bot.start();
