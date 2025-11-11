@@ -1,12 +1,12 @@
 services:
   db:
-    build: ./db
+    build: ./dbTelegram
     container_name: postgres_db
     restart: unless-stopped
     environment:
       POSTGRES_USER: Warren
       POSTGRES_PASSWORD: LikeSugarOnMyTongue
-      POSTGRES_DB: Archyl_db
+      POSTGRES_DB: Archyl_dbTelegram
     ports:
       - "5432:5432"
     volumes:

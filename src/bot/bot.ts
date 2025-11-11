@@ -19,6 +19,7 @@ bot.command("vault", async (ctx) => {
   );
   vaultState = true;
 });
+
 // ****** Tag *******
 bot.command("tag", async (ctx) => {
   if (ctx.message?.text) usrPrompt = ctx.message?.text;
@@ -39,6 +40,7 @@ bot.command("tag", async (ctx) => {
 
   // search tag in db if found add add prompt if not add tag + prompt
 });
+
 bot.on("message", async (ctx) => {
   if (ctx.message.text) {
     usrPrompt = ctx.message.text;
