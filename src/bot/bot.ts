@@ -19,6 +19,26 @@ bot.command("vault", async (ctx) => {
   );
   vaultState = true;
 });
+// ****** Tag *******
+bot.command("tag", async (ctx) => {
+  if (ctx.message?.text) usrPrompt = ctx.message?.text;
+  usrPrompt = usrPrompt.slice(4, usrPrompt.length);
+  const [tag, ...rest] = usrPrompt.trimStart().split(" ");
+  if (!tag) {
+    bot.api.sendChatAction(ctx.chatId, "typing");
+    await new Promise((r) => setTimeout(r, 1000));
+    bot.api.sendMessage(
+      ctx.chatId,
+      "use /tag {Your tag} + content\n example : /tag reminder - call Steve",
+    );
+  }
+  usrPrompt = rest.join(" ");
+  usrPrompt = usrPrompt.replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, "");
+  console.log("Tag : " + tag);
+  console.log(" Prompt : " + usrPrompt);
+
+  // search tag in db if found add add prompt if not add tag + prompt
+});
 bot.on("message", async (ctx) => {
   if (ctx.message.text) {
     usrPrompt = ctx.message.text;
