@@ -29,7 +29,6 @@ export const tag = async (bot: Bot, ctx: CommandContext<Context>) => {
 				id: ctx.from?.id,
 			},
 		});
-		console.log("RRRRRRR");
 		if (user) {
 			// put tag and content
 			if (usrPrompt && tag) {
@@ -40,7 +39,6 @@ export const tag = async (bot: Bot, ctx: CommandContext<Context>) => {
 						content: usrPrompt,
 					},
 				});
-				console.log("ADEED");
 			}
 		} else {
 			await prismaClient.user.create({
@@ -49,7 +47,6 @@ export const tag = async (bot: Bot, ctx: CommandContext<Context>) => {
 					name: ctx.from?.first_name || "salut",
 				},
 			});
-			console.log("XXXXXXX");
 		}
 	} catch (err) {
 		console.error("DB Error:", err);
