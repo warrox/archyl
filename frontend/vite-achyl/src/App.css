@@ -2,6 +2,7 @@
 
 @tailwind utilities;
 
+
 body {
   @apply bg-[#F0EAD6];
 }
