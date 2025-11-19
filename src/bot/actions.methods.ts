@@ -22,29 +22,29 @@ export const tag = async (bot: Bot, ctx: CommandContext<Context>) => {
 	usrPrompt = rest.join(" ").replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, "");
 	console.log("Tag:", tag);
 	console.log("Prompt:", usrPrompt);
-
 	try {
-		const user = await prismaClient.user.findUnique({
-			where: {
-				id: ctx.from?.id,
-			},
+		const userId = ctx.from?.id;
+		if (!userId) throw new Error("User ID missing");
+
+		let user = await prismaClient.user.findUnique({
+			where: { id: userId },
 		});
-		if (user) {
-			// put tag and content
-			if (usrPrompt && tag) {
-				await prismaClient.user.update({
-					where: { id: ctx.from?.id },
-					data: {
-						tag: tag,
-						content: usrPrompt,
-					},
-				});
-			}
-		} else {
-			await prismaClient.user.create({
+
+		if (!user) {
+			user = await prismaClient.user.create({
 				data: {
-					id: ctx.from?.id || 0,
+					id: userId,
 					name: ctx.from?.first_name || "salut",
+				},
+			});
+		}
+
+		if (usrPrompt && tag) {
+			await prismaClient.userTag.create({
+				data: {
+					userId: user.id,
+					name: tag,
+					content: usrPrompt,
 				},
 			});
 		}

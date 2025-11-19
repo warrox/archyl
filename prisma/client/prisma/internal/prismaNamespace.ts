@@ -390,7 +390,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
-  User: 'User'
+  User: 'User',
+  UserTag: 'UserTag'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -406,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user"
+    modelProps: "user" | "userTag"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -484,6 +485,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    UserTag: {
+      payload: Prisma.$UserTagPayload<ExtArgs>
+      fields: Prisma.UserTagFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserTagFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTagPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserTagFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTagPayload>
+        }
+        findFirst: {
+          args: Prisma.UserTagFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTagPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserTagFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTagPayload>
+        }
+        findMany: {
+          args: Prisma.UserTagFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTagPayload>[]
+        }
+        create: {
+          args: Prisma.UserTagCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTagPayload>
+        }
+        createMany: {
+          args: Prisma.UserTagCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserTagCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTagPayload>[]
+        }
+        delete: {
+          args: Prisma.UserTagDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTagPayload>
+        }
+        update: {
+          args: Prisma.UserTagUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTagPayload>
+        }
+        deleteMany: {
+          args: Prisma.UserTagDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserTagUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserTagUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTagPayload>[]
+        }
+        upsert: {
+          args: Prisma.UserTagUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTagPayload>
+        }
+        aggregate: {
+          args: Prisma.UserTagAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserTag>
+        }
+        groupBy: {
+          args: Prisma.UserTagGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserTagGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserTagCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserTagCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -526,13 +601,21 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  tag: 'tag',
-  content: 'content',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const UserTagScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  content: 'content'
+} as const
+
+export type UserTagScalarFieldEnum = (typeof UserTagScalarFieldEnum)[keyof typeof UserTagScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -549,14 +632,6 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
-
-
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 
@@ -708,6 +783,7 @@ export interface PrismaClientOptions {
 }
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  userTag?: Prisma.UserTagOmit
 }
 
 /* Types for Logging */

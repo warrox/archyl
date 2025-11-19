@@ -49,7 +49,8 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 
 
 export const ModelName = {
-  User: 'User'
+  User: 'User',
+  UserTag: 'UserTag'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -71,13 +72,21 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  tag: 'tag',
-  content: 'content',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const UserTagScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  content: 'content'
+} as const
+
+export type UserTagScalarFieldEnum = (typeof UserTagScalarFieldEnum)[keyof typeof UserTagScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -94,12 +103,4 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
-
-
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

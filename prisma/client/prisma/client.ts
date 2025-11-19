@@ -49,3 +49,8 @@ path.join(process.cwd(), "client/prisma/libquery_engine-debian-openssl-3.0.x.so.
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model UserTag
+ * 
+ */
+export type UserTag = Prisma.UserTagModel
