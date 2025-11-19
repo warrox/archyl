@@ -1,6 +1,7 @@
 import './App.css'
 import './index.css'
 
+
 const CallToAction = () => {
   return (
     <div className="max-w-7xl p-6 lg:px-8">
@@ -28,7 +29,7 @@ const CallToAction = () => {
 
           <button
             type="submit"
-            className="flex-none rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="flex-none rounded-md text-white bg-white px-3.5 py-2.5 text-sm font-semibold  shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             Notify me
           </button>
@@ -73,13 +74,14 @@ const Header = () => {
     </header>
   );
 }
-
 function App() {
   return (
     <div className="relative h-screen w-screen">
       <Header />
 
-      <div className="flex h-full w-full items-center justify-center">
+
+      <div className="flex flex-col items-center justify-center h-full space-y-12">
+
         <CallToAction />
       </div>
     </div>
