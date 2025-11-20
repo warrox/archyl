@@ -11,6 +11,7 @@ let vaultState: boolean = false;
 // ******* MemoBox *******
 bot.command("memobox", async (ctx) => {
 	bot.api.sendMessage(ctx.chatId, "MemoBox wip");
+	action.memoBox(bot, ctx);
 });
 // ******* Vault *******
 bot.command("vault", async (ctx) => {
