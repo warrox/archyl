@@ -105,11 +105,12 @@ export const memoBox = async (bot: Bot, ctx: any) => {
       where: { userId: usrId },
       select: { name: true },
     });
-    const tagLst = tagNames.map((t) => t.name);
+    let tagLst = tagNames.map((t) => t.name);
     console.log(
       "what's inside :",
       tagLst,
     );
+    tagLst = [...new Set(tagLst)];
     const tagLstMsg = tagLst.join(" ")
     bot.api.sendMessage(usrId, tagLstMsg);
   } catch (error) {
