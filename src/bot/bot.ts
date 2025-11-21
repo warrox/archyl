@@ -10,7 +10,6 @@ const bot = new Bot(process.env.TELEGRAM_BOT_ID!);
 let vaultState: boolean = false;
 // ******* MemoBox *******
 bot.command("memobox", async (ctx) => {
-	bot.api.sendMessage(ctx.chatId, "MemoBox wip");
 	action.memoBox(bot, ctx);
 });
 // ******* Vault *******
