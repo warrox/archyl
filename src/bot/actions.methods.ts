@@ -5,27 +5,7 @@ import { oa } from "../ai/agent.ts";
 let usrPrompt = "";
 let result = "";
 
-export const tag = async (bot: Bot, ctx: CommandContext<Context>) => {
-	if (ctx.message?.text) usrPrompt = ctx.message.text;
-	usrPrompt = usrPrompt.slice(4);
-	const [tag, ...rest] = usrPrompt.trimStart().split(" ");
-	/*
-    Check if the command /tag is well used by user
-  */
-	if (!tag) {
-		bot.api.sendChatAction(ctx.chatId, "typing");
-		await new Promise((r) => setTimeout(r, 1000));
-		return bot.api.sendMessage(
-			ctx.chatId,
-			"use /tag {Your tag} + content\nexample: /tag reminder - call Steve",
-		);
-	}
-	/* 
-    Separating tag from user prompt
-   */
-	usrPrompt = rest.join(" ").replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, "");
-	console.log("Tag:", tag);
-	console.log("Prompt:", usrPrompt);
+async function addUserTagAndMemo(ctx: any, tag: string, usrPrompt: string) {
 	try {
 		const userId = ctx.from?.id;
 		if (!userId) throw new Error("User ID missing");
@@ -65,6 +45,30 @@ export const tag = async (bot: Bot, ctx: CommandContext<Context>) => {
 	} catch (err) {
 		console.error("DB Error:", err);
 	}
+}
+export const tag = async (bot: Bot, ctx: CommandContext<Context>) => {
+	if (ctx.message?.text) usrPrompt = ctx.message.text;
+	usrPrompt = usrPrompt.slice(4);
+	const [tag, ...rest] = usrPrompt.trimStart().split(" ");
+	/*
+    Check if the command /tag is well used by user
+  */
+	if (!tag) {
+		bot.api.sendChatAction(ctx.chatId, "typing");
+		await new Promise((r) => setTimeout(r, 1000));
+		return bot.api.sendMessage(
+			ctx.chatId,
+			"use /tag {Your tag} + content\nexample: /tag reminder - call Steve",
+		);
+	}
+	/* 
+    Separating tag from user prompt
+   */
+	usrPrompt = rest.join(" ").replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, "");
+	console.log("Tag:", tag);
+	console.log("Prompt:", usrPrompt);
+	//here
+	addUserTagAndMemo(ctx, tag, usrPrompt);
 	bot.api.sendMessage(
 		ctx.chatId,
 		` Your message has been added to the vault 🔐, you can retrieve it by using 🧠MemoBox  in the category : "${tag.toUpperCase()}" or talk to me directly on the menu`,
@@ -88,17 +92,7 @@ export const message = async (bot: Bot, ctx: any, vaultState: boolean) => {
 		/* Use Ai sdk to create a tag */
 		result = await oa(usrPrompt);
 		console.log(`result from ChatGpt : ${result}`);
-		try {
-			await prismaClient.userTag.create({
-				data: {
-					userId: userId,
-					name: result,
-					content: usrPrompt,
-				},
-			});
-		} catch (e) {
-			console.log(e);
-		}
+		addUserTagAndMemo(ctx, result, usrPrompt);
 		result = ` Your message has been added to the vault 🔐, you can retrieve it by using 🧠MemoBox  in the category : "${result.toUpperCase()}" or talk to me directly on the menu`;
 		bot.api.sendMessage(ctx.chatId, result);
 		vaultState = false;
