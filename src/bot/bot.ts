@@ -19,6 +19,7 @@ bot.command("vault", async (ctx) => {
 		"Vault opened🔓, please send me your memo ..",
 	);
 	vaultState = true;
+	if (vaultState) action.vault(bot, ctx);
 });
 
 // ****** Tag *******

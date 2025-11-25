@@ -126,3 +126,5 @@ export const memoBox = async (bot: Bot, ctx: any) => {
 		console.log(error);
 	}
 };
+
+export const vault = async (bot: Bot, ctx: any) => {};
